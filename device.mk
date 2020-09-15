@@ -471,5 +471,9 @@ PRODUCT_PACKAGES += \
  PRODUCT_BOOT_JARS += \
     WfdCommon
 
+# XiaomiParts
+PRODUCT_PACKAGES += \
+    XiaomiParts
+
 # Inherit proprietary files
 $(call inherit-product-if-exists, vendor/xiaomi/rolex/rolex-vendor.mk)
