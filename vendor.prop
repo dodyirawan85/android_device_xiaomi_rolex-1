@@ -89,6 +89,9 @@ vendor.qcom.bluetooth.soc=smd
 ro.bluetooth.library_name=libbluetooth_qti.so
 persist.vendor.btstack.enable.splita2dp=false
 
+# Dalvik dex2oat
+dalvik.vm.dex2oat64.enabled=true
+
 # DRM
 drm.service.enabled=true
 
