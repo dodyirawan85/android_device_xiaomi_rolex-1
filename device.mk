@@ -98,7 +98,8 @@ PRODUCT_PACKAGES += \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
-    libvolumelistener
+    libvolumelistener \
+    libnbaio
 
 # Audio mixer
 PRODUCT_COPY_FILES += \
