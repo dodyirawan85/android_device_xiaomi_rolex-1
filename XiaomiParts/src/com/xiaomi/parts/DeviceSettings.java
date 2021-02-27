@@ -15,9 +15,9 @@ import androidx.preference.TwoStatePreference;
 import com.xiaomi.parts.fps.FPSInfoService;
 import com.xiaomi.parts.kcal.KCalSettingsActivity;
 import com.xiaomi.parts.preferences.SecureSettingListPreference;
+import com.xiaomi.parts.preferences.SecureSettingSeekBarPreference;
 import com.xiaomi.parts.preferences.SecureSettingSwitchPreference;
 import com.xiaomi.parts.preferences.VibrationSeekBarPreference;
-import com.xiaomi.parts.preferences.CustomSeekBarPreference;
 import com.xiaomi.parts.ambient.AmbientGesturePreferenceActivity;
 import com.xiaomi.parts.su.SuShell;
 import com.xiaomi.parts.su.SuTask;
@@ -31,7 +31,7 @@ public class DeviceSettings extends PreferenceFragment implements
     private static final String TAG = "DeviceSettings";
 
     private static final String PREF_DEVICE_KCAL = "device_kcal";
-private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
+    private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
 
     // Vibration override will use bool instead of integer
     public static final String PREF_VIBRATION_OVERRIDE = "vmax_override";
@@ -55,10 +55,10 @@ private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
     private static final String PREF_SELINUX_MODE = "selinux_mode";
     private static final String PREF_SELINUX_PERSISTENCE = "selinux_persistence";
 
-    public static final  String PREF_SPEAKER_GAIN = "speaker_gain";
-    public static final  String PREF_EARPIECE_GAIN = "earpiece_gain";
-    public static final  String SPEAKER_GAIN_PATH = "/sys/kernel/sound_control/speaker_gain";
-    public static final  String EARPIECE_GAIN_PATH = "/sys/kernel/sound_control/earpiece_gain";
+    public static final  String PREF_MICROPHONE_GAIN = "mic_gain";
+    public static final  String PREF_HEADPHONE_GAIN = "headphone_gain";
+    public static final  String MICROPHONE_GAIN_PATH = "/sys/kernel/sound_control/mic_gain";
+    public static final  String HEADPHONE_GAIN_PATH = "/sys/kernel/sound_control/headphone_gain";
 
     public static final  String PERF_YELLOW_TORCH_BRIGHTNESS = "yellow_torch_brightness";
     public static final  String TORCH_YELLOW_BRIGHTNESS_PATH = "/sys/class/leds/led:torch_1/max_brightness";
@@ -72,7 +72,7 @@ private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
     private SwitchPreference mSelinuxPersistence;
 
     private CustomSeekBarPreference mSpeakerGain;
-    private CustomSeekBarPreference mEarpieceGain;
+    private CustomSeekBarPreference mHeadphoneGain;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -84,6 +84,7 @@ private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
         vib.setEnabled(Vibration.isSupported());
         vib.setChecked(Vibration.isCurrentlyEnabled(this.getContext()));
         vib.setOnPreferenceChangeListener(new Vibration(getContext()));
+
         Preference ambientDisplay = findPreference(AMBIENT_DISPLAY);
         ambientDisplay.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getContext(), AmbientGesturePreferenceActivity.class);
@@ -134,6 +135,13 @@ private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
         SecureSettingListPreference preset = (SecureSettingListPreference) findPreference(PREF_PRESET);
         preset.setOnPreferenceChangeListener(this);
 
+        // Headphone & Mic Gain
+        if (FileUtils.fileWritable(HEADPHONE_GAIN_PATH) && FileUtils.fileWritable(MICROPHONE_GAIN_PATH)) {
+            SecureSettingSeekBarPreference headphoneGain = (SecureSettingSeekBarPreference) findPreference(PREF_HEADPHONE_GAIN);
+            headphoneGain.setOnPreferenceChangeListener(this);
+            SecureSettingSeekBarPreference microphoneGain = (SecureSettingSeekBarPreference) findPreference(PREF_MICROPHONE_GAIN);
+            microphoneGain.setOnPreferenceChangeListener(this);
+        }
 
         Preference kcal = findPreference(PREF_DEVICE_KCAL);
         kcal.setOnPreferenceClickListener(preference -> {
@@ -190,12 +198,13 @@ private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
                 FileUtils.setValue(VIBRATION_CALL_PATH, VibrationCallValue);
                 break;
 
-            case PREF_SPEAKER_GAIN:
-                 FileUtils.setValue(SPEAKER_GAIN_PATH, (int) value);
+            case PREF_MICROPHONE_GAIN:
+                FileUtils.setValue(MICROPHONE_GAIN_PATH, (int) value);
                 break;
 
-            case PREF_EARPIECE_GAIN:
-                FileUtils.setValue(EARPIECE_GAIN_PATH, (int) value);
+            case PREF_HEADPHONE_GAIN:
+                FileUtils.setValue(HEADPHONE_GAIN_PATH, value + " " + value);
+                break;
 
             case PREF_ENABLE_DIRAC:
                 try {
