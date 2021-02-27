@@ -9,7 +9,6 @@
     <string name="audio_category">Audio</string>
     <string name="display_category">Display</string>
     <string name="other_category">Other</string>
-    <string name="torch_category">Torch</string>
 
     <!-- USB fastcharge -->
     <string name="fastcharge_title">Enable USB Fastcharge</string>
@@ -181,16 +180,6 @@
     <!-- Audio amplification -->
     <string name="headphone_gain">Headphone gain</string>
     <string name="mic_gain">Microphone gain</string>
-
-    <!-- Torch -->
-    <string name="torch_yellow_brightness_title">Yellow flashlight</string>
-
-    <!-- Vibrator -->
-    <string name="vibration_category">Vibration</string>
-    <string name="vibration_override_title">Override System Vibration</string>
-    <string name="vibration_system_title">System Vibration Strength</string>
-    <string name="vibration_notification_title">Notification Vibration Strength</string>
-    <string name="vibration_call_title">Call Vibration Strength</string>
 
     <!-- Log Tile -->
     <string name="quick_settings_log_tile_label">LogTile</string>

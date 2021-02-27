@@ -17,7 +17,6 @@ import com.xiaomi.parts.kcal.KCalSettingsActivity;
 import com.xiaomi.parts.preferences.SecureSettingListPreference;
 import com.xiaomi.parts.preferences.SecureSettingSeekBarPreference;
 import com.xiaomi.parts.preferences.SecureSettingSwitchPreference;
-import com.xiaomi.parts.preferences.VibrationSeekBarPreference;
 import com.xiaomi.parts.ambient.AmbientGesturePreferenceActivity;
 import com.xiaomi.parts.su.SuShell;
 import com.xiaomi.parts.su.SuTask;
@@ -33,21 +32,6 @@ public class DeviceSettings extends PreferenceFragment implements
     private static final String PREF_DEVICE_KCAL = "device_kcal";
     private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
 
-    // Vibration override will use bool instead of integer
-    public static final String PREF_VIBRATION_OVERRIDE = "vmax_override";
-    public static final String PREF_VIBRATION_PATH = "/sys/devices/platform/soc/200f000.qcom,spmi/spmi-0/spmi0-03/200f000.qcom,spmi:qcom,pmi8950@3:qcom,haptics@c000/leds/vibrator/vmax_override";
-
-    public static final String PREF_VIBRATION_SYSTEM_STRENGTH = "vibration_system";
-    public static final String PREF_VIBRATION_NOTIFICATION_STRENGTH = "vibration_notification";
-    public static final String PREF_VIBRATION_CALL_STRENGTH = "vibration_call";
-    public static final String VIBRATION_SYSTEM_PATH = "/sys/devices/platform/soc/200f000.qcom,spmi/spmi-0/spmi0-03/200f000.qcom,spmi:qcom,pmi8950@3:qcom,haptics@c000/leds/vibrator/vmax_mv_user";
-    public static final String VIBRATION_NOTIFICATION_PATH = "/sys/devices/platform/soc/200f000.qcom,spmi/spmi-0/spmi0-03/200f000.qcom,spmi:qcom,pmi8950@3:qcom,haptics@c000/leds/vibrator/vmax_mv_strong";
-    public static final String VIBRATION_CALL_PATH = "/sys/devices/platform/soc/200f000.qcom,spmi/spmi-0/spmi0-03/200f000.qcom,spmi:qcom,pmi8950@3:qcom,haptics@c000/leds/vibrator/vmax_mv_call";
-
-    // value of vtg_min and vtg_max
-    public static final int MIN_VIBRATION = 116;
-    public static final int MAX_VIBRATION = 3596;
-
     public static final String PREF_KEY_FPS_INFO = "fps_info";
 
     private static final String SELINUX_CATEGORY = "selinux";
@@ -60,9 +44,6 @@ public class DeviceSettings extends PreferenceFragment implements
     public static final  String MICROPHONE_GAIN_PATH = "/sys/kernel/sound_control/mic_gain";
     public static final  String HEADPHONE_GAIN_PATH = "/sys/kernel/sound_control/headphone_gain";
 
-    public static final  String PERF_YELLOW_TORCH_BRIGHTNESS = "yellow_torch_brightness";
-    public static final  String TORCH_YELLOW_BRIGHTNESS_PATH = "/sys/class/leds/led:torch_1/max_brightness";
-
     private static final String PREF_ENABLE_DIRAC = "dirac_enabled";
     private static final String PREF_HEADSET = "dirac_headset_pref";
     private static final String PREF_PRESET = "dirac_preset_pref";
@@ -71,19 +52,11 @@ public class DeviceSettings extends PreferenceFragment implements
     private SwitchPreference mSelinuxMode;
     private SwitchPreference mSelinuxPersistence;
 
-    private CustomSeekBarPreference mSpeakerGain;
-    private CustomSeekBarPreference mHeadphoneGain;
-
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.xiaomi_main, rootKey);
         mContext = this.getContext();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        SecureSettingSwitchPreference vib = (SecureSettingSwitchPreference) findPreference(PREF_VIBRATION_OVERRIDE);
-        vib.setEnabled(Vibration.isSupported());
-        vib.setChecked(Vibration.isCurrentlyEnabled(this.getContext()));
-        vib.setOnPreferenceChangeListener(new Vibration(getContext()));
 
         Preference ambientDisplay = findPreference(AMBIENT_DISPLAY);
         ambientDisplay.setOnPreferenceClickListener(preference -> {
@@ -91,21 +64,6 @@ public class DeviceSettings extends PreferenceFragment implements
             startActivity(intent);
             return true;
         });
-        VibrationSeekBarPreference vibrationSystemStrength = (VibrationSeekBarPreference) findPreference(PREF_VIBRATION_SYSTEM_STRENGTH);
-        vibrationSystemStrength.setEnabled(FileUtils.fileWritable(VIBRATION_SYSTEM_PATH));
-        vibrationSystemStrength.setOnPreferenceChangeListener(this);
-
-        VibrationSeekBarPreference vibrationNotificationStrength = (VibrationSeekBarPreference) findPreference(PREF_VIBRATION_NOTIFICATION_STRENGTH);
-        vibrationNotificationStrength.setEnabled(FileUtils.fileWritable(VIBRATION_NOTIFICATION_PATH));
-        vibrationNotificationStrength.setOnPreferenceChangeListener(this);
-
-        VibrationSeekBarPreference vibrationCallStrength = (VibrationSeekBarPreference) findPreference(PREF_VIBRATION_CALL_STRENGTH);
-        vibrationCallStrength.setEnabled(FileUtils.fileWritable(VIBRATION_CALL_PATH));
-        vibrationCallStrength.setOnPreferenceChangeListener(this);
-
-        CustomSeekBarPreference torch_yellow = (CustomSeekBarPreference) findPreference(PERF_YELLOW_TORCH_BRIGHTNESS);
-        torch_yellow.setEnabled(FileUtils.fileWritable(TORCH_YELLOW_BRIGHTNESS_PATH));
-        torch_yellow.setOnPreferenceChangeListener(this);
 
         SwitchPreference fpsInfo = (SwitchPreference) findPreference(PREF_KEY_FPS_INFO);
         fpsInfo.setChecked(prefs.getBoolean(PREF_KEY_FPS_INFO, false));
@@ -179,25 +137,6 @@ public class DeviceSettings extends PreferenceFragment implements
     public boolean onPreferenceChange(Preference preference, Object value) {
         final String key = preference.getKey();
         switch (key) {
-            case PERF_YELLOW_TORCH_BRIGHTNESS:
-                FileUtils.setValue(TORCH_YELLOW_BRIGHTNESS_PATH, (int) value);
-                break;
-
-            case PREF_VIBRATION_SYSTEM_STRENGTH:
-                double VibrationSystemValue = (int) value / 100.0 * (MAX_VIBRATION - MIN_VIBRATION) + MIN_VIBRATION;
-                FileUtils.setValue(VIBRATION_SYSTEM_PATH, VibrationSystemValue);
-                break;
-
-            case PREF_VIBRATION_NOTIFICATION_STRENGTH:
-                double VibrationNotificationValue = (int) value / 100.0 * (MAX_VIBRATION - MIN_VIBRATION) + MIN_VIBRATION;
-                FileUtils.setValue(VIBRATION_NOTIFICATION_PATH, VibrationNotificationValue);
-                break;
-
-            case PREF_VIBRATION_CALL_STRENGTH:
-                double VibrationCallValue = (int) value / 100.0 * (MAX_VIBRATION - MIN_VIBRATION) + MIN_VIBRATION;
-                FileUtils.setValue(VIBRATION_CALL_PATH, VibrationCallValue);
-                break;
-
             case PREF_MICROPHONE_GAIN:
                 FileUtils.setValue(MICROPHONE_GAIN_PATH, (int) value);
                 break;

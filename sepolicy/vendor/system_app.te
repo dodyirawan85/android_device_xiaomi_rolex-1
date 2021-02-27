@@ -17,9 +17,5 @@ allow system_app fm_radio_device:chr_file r_file_perms;
 # XiaomiParts
 allow system_app kcal_dev:dir search;
 allow system_app kcal_dev:file rw_file_perms;
-allow system_app sysfs_vibrator:dir search;
-allow system_app sysfs_vibrator:file rw_file_perms;
-allow system_app sysfs_torch:dir search;
-allow system_app sysfs_torch:file rw_file_perms;
 allow system_app sysfs_leds:dir search;
 allow system_app sysfs_leds:file rw_file_perms;
