@@ -110,7 +110,7 @@
     <string name="dirac_preset_country">Country</string>
     <string name="dirac_preset_dance">Dance</string>
     <string name="dirac_preset_metal">Metal</string>
-    
+
     <!-- Ambient gesture haptic feedback -->
     <string name="ambient_gesture_haptic_feedback">Haptic feedback</string>
     <string name="ambient_gesture_haptic_feedback_summary">Vibrate when a Ambient gesture is detected</string>
@@ -179,8 +179,8 @@
     <string name="set_on_boot_summary">Restore your modifications on each reboot</string>
 
     <!-- Audio amplification -->
-    <string name="earpiece_gain">Earpiece gain (Calls)</string>
-    <string name="speaker_gain">Speaker gain</string>
+    <string name="headphone_gain">Headphone gain</string>
+    <string name="mic_gain">Microphone gain</string>
 
     <!-- Torch -->
     <string name="torch_yellow_brightness_title">Yellow flashlight</string>

@@ -13,6 +13,9 @@ import com.xiaomi.parts.kcal.Utils;
 
 public class BootReceiver extends BroadcastReceiver implements Utils {
 
+    public static final  String HEADPHONE_GAIN_PATH = "/sys/kernel/sound_control/headphone_gain";
+    public static final  String MIC_GAIN_PATH = "/sys/kernel/sound_control/mic_gain";
+
     public void onReceive(final Context context, final Intent intent) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -43,10 +46,11 @@ public class BootReceiver extends BroadcastReceiver implements Utils {
                     PREF_HUE, HUE_DEFAULT));
         }
 
-        FileUtils.setValue(DeviceSettings.EARPIECE_GAIN_PATH, Settings.Secure.getInt(context.getContentResolver(),
-                DeviceSettings.PREF_EARPIECE_GAIN, 0));
-        FileUtils.setValue(DeviceSettings.SPEAKER_GAIN_PATH, Settings.Secure.getInt(context.getContentResolver(),
-                DeviceSettings.PREF_SPEAKER_GAIN, 0));
+        int gain = Settings.Secure.getInt(context.getContentResolver(),
+                DeviceSettings.HEADPHONE_GAIN_PATH, 0);
+        FileUtils.setValue(HEADPHONE_GAIN_PATH, gain + " " + gain);
+        FileUtils.setValue(MIC_GAIN_PATH, Settings.Secure.getInt(context.getContentResolver(),
+                DeviceSettings.MICROPHONE_GAIN_PATH, 0));
 
 	//Yellow Torch
         FileUtils.setValue(DeviceSettings.TORCH_YELLOW_BRIGHTNESS_PATH,
