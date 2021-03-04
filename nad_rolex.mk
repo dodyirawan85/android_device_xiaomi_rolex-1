@@ -21,9 +21,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_m.mk)
 
 # Inherit some common Pixel Experience stuff
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
-
+$(call inherit-product, vendor/nusantara/config/common_full_phone.mk)
 TARGET_BOOT_ANIMATION_RES := 720
+NAD_BUILD_TYPE := OFFICIAL
+USE_PIXEL_CHARGING := true
 
 # Inherit from rolex device
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
@@ -32,7 +33,7 @@ PRODUCT_BRAND := Xiaomi
 PRODUCT_MODEL := Redmi 4A
 PRODUCT_DEVICE := rolex
 PRODUCT_MANUFACTURER := Xiaomi
-PRODUCT_NAME := lineage_rolex
+PRODUCT_NAME := nad_rolex
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
 

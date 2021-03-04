@@ -2,7 +2,7 @@
    {
       "remote":"github",
       "branch":"11",
-      "repository":"vendor_xiaomi_rolex",
+      "repository":"anggialansori404/android_vendor_xiaomi_rolex",
       "target_path":"vendor/xiaomi/rolex"
    },
    {
