@@ -14,10 +14,6 @@
     <string name="fastcharge_title">Enable USB Fastcharge</string>
     <string name="fastcharge_summary">Charge upto 700mA when connected to a computer via USB 3.0 port</string>
 
-    <!-- FPS Info -->
-    <string name="fps_info_title">FPS Info Overlay</string>
-    <string name="fps_info_summary">Show overlay with current frames per second</string>
-
     <!-- KCal -->
     <string name="device_kcal_title">Display Calibration</string>
     <string name="device_kcal_summary">Display color calibration using KCAL</string>

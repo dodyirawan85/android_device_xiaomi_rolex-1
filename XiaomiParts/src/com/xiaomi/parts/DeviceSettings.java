@@ -12,7 +12,6 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 import androidx.preference.TwoStatePreference;
 
-import com.xiaomi.parts.fps.FPSInfoService;
 import com.xiaomi.parts.kcal.KCalSettingsActivity;
 import com.xiaomi.parts.preferences.SecureSettingListPreference;
 import com.xiaomi.parts.preferences.SecureSettingSeekBarPreference;
@@ -31,8 +30,6 @@ public class DeviceSettings extends PreferenceFragment implements
 
     private static final String PREF_DEVICE_KCAL = "device_kcal";
     private static final String AMBIENT_DISPLAY = "ambient_display_gestures";
-
-    public static final String PREF_KEY_FPS_INFO = "fps_info";
 
     private static final String SELINUX_CATEGORY = "selinux";
     private static final String SELINUX_EXPLANATION = "selinux_explanation";
@@ -64,10 +61,6 @@ public class DeviceSettings extends PreferenceFragment implements
             startActivity(intent);
             return true;
         });
-
-        SwitchPreference fpsInfo = (SwitchPreference) findPreference(PREF_KEY_FPS_INFO);
-        fpsInfo.setChecked(prefs.getBoolean(PREF_KEY_FPS_INFO, false));
-        fpsInfo.setOnPreferenceChangeListener(this);
 
         boolean enhancerEnabled;
         try {
@@ -169,16 +162,6 @@ public class DeviceSettings extends PreferenceFragment implements
                 } catch (java.lang.NullPointerException e) {
                     getContext().startService(new Intent(getContext(), DiracService.class));
                     DiracService.sDiracUtils.setLevel(String.valueOf(value));
-                }
-                break;
-
-            case PREF_KEY_FPS_INFO:
-                boolean enabled = (Boolean) value;
-                Intent fpsinfo = new Intent(this.getContext(), FPSInfoService.class);
-                if (enabled) {
-                    this.getContext().startService(fpsinfo);
-                } else {
-                    this.getContext().stopService(fpsinfo);
                 }
                 break;
 
