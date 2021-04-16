@@ -14,9 +14,9 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/wave_rolex.mk
+    $(LOCAL_DIR)/nad_rolex.mk
 
 COMMON_LUNCH_CHOICES := \
-    wave_rolex-user \
-    wave_rolex-userdebug \
-    wave_rolex-eng
+    nad_rolex-user \
+    nad_rolex-userdebug \
+    nad_rolex-eng
