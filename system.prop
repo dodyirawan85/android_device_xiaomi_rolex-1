@@ -58,6 +58,12 @@ iorapd.readahead.enable=true
 # FM
 ro.fm.transmitter=false
 
+# LMKD
+ro.lmk.low=1001
+ro.lmk.medium=800
+ro.lmk.upgrade_pressure=100
+ro.lmk.downgrade_pressure=100
+
 # Media
 media.msm8956hw=0
 media.stagefright.thumbnail.prefer_hw_codecs=true
@@ -82,6 +88,15 @@ persist.rild.nitz_short_ons_0=
 persist.rild.nitz_short_ons_1=
 persist.rild.nitz_short_ons_2=
 persist.rild.nitz_short_ons_3=
+
+# PSI
+ro.lmk.use_psi=true
+ro.lmk.swap_util_max=100
+ro.lmk.swap_free_low_percentage=10
+ro.lmk.psi_partial_stall_ms=250
+ro.lmk.psi_complete_stall_ms=700
+ro.lmk.thrashing_limit=40
+ro.lmk.thrashing_limit_decay=60
 
 # QC framework value-adds
 ro.vendor.qti.va_aosp.support=1

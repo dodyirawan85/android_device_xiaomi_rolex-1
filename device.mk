@@ -146,8 +146,14 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.device@3.2 \
     android.hardware.camera.device@3.3 \
     android.hardware.camera.device@3.4 \
+    android.hardware.camera.device@3.5 \
     android.hardware.camera.provider@2.5 \
+    android.hardware.camera.provider@2.6 \
     vendor.qti.hardware.camera.device@1.0
+
+# Charging images
+PRODUCT_PACKAGES += \
+    charger_res_images
 
 # Configstore
 PRODUCT_PACKAGES += \
@@ -352,7 +358,7 @@ PRODUCT_COPY_FILES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service.custom
+    android.hardware.power-service-qti
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
@@ -424,7 +430,8 @@ PRODUCT_PACKAGES += \
     Calender \
     DeskClock \
     ExactCalcualtor \
-    messaging
+    messaging \
+    DefaultDialerOverlay
 endif
 
 # Vibrator
