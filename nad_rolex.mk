@@ -25,6 +25,7 @@ $(call inherit-product, vendor/nusantara/config/common_full_phone.mk)
 TARGET_BOOT_ANIMATION_RES := 720
 NAD_BUILD_TYPE := OFFICIAL
 USE_PIXEL_CHARGING := true
+TARGET_USES_BLUR := true
 
 # Inherit from rolex device
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
