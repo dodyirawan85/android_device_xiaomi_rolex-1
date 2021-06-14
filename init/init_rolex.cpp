@@ -77,7 +77,7 @@ void init_target_properties()
         property_override("ro.product.model", "Redmi 5A");
 	property_override("ro.product.device", "riva");
 	property_override("ro.product.vendor.device", "riva");
-        property_override("ro.vendor.build.fingerprint", "Xiaomi/riva/riva:7.1.2/N2G47H/V9.5.6.0.NCKMIFA:user/release-keys");
+        property_override("ro.vendor.build.fingerprint", "google/redfin/redfin:11/RQ3A.210605.005/7349499:user/release-keys");
 	// Specify LED Color is White Only
 	property_override("ro.led.white_led", "1");
     }
